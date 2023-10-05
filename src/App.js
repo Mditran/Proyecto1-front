@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './Components/Views/Login';
+import Layout from './Components/Layout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+    <Routes>
+    <Route path="/" element={<Layout />}/>
+{/*     <Route path="/" element={localStorage.getItem('auth') ? <Navigate to="/app" /> : <Navigate to="/login" />}/> */}
+{/*       <Route
+        path="/login"
+        element={localStorage.getItem('auth') ? <Navigate to="/app" /> : <Login />}
+      />
+      <Route
+        path="/app/*"
+        element={
+          localStorage.getItem('auth') ? (
+            <Layout />
+          ) : (
+            <Navigate to="/login" replace state={{ from: '/app' }} />
+          )
+        }
+      /> */}
+    </Routes>
+  </Router>
   );
 }
 

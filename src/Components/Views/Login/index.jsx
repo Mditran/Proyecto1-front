@@ -3,11 +3,12 @@ import './Login.css';
 import Space01 from '../../../Assets/img/Space04.jpg';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import jwt_decode from "jwt-decode";
 
 
 
 const Login = () => {
-    const [body, setBody] = useState({ username: '', password: '' })
+    const [body, setBody] = useState({ email: '', password: '' })
     //const navigate = useNavigate()
     //const classes = useStyles()
 
@@ -19,11 +20,15 @@ const Login = () => {
     }
 
     const onSubmit = (e) => {
+        //localStorage.clear();
         e.preventDefault()
-        axios.post('http://localhost:4000/api/login', body)
+        axios.post('http://127.0.0.1:8000/api/token/', body)
         .then(({data}) => {
             localStorage.setItem('auth', true)
-            localStorage.setItem('userData', JSON.stringify(data));
+            console.log(jwt_decode(data.access));
+            const datos = jwt_decode(data.access)
+            console.log(datos.full_name);
+            localStorage.setItem('userData',   JSON.stringify(jwt_decode(data.access)));
             window.location.href = '/app';
         })
         .catch(({response})=>{
@@ -43,10 +48,10 @@ const Login = () => {
                     <div className="mt-6">
                         <label className="block">Usuario</label>
                         <input type="text" placeholder="Digite usuario" className="w-full px-4 py-3 rounded-lg bg-gray-800 mt-2 border focus:border-blue-500 focus:bg-gray-900 focus:outline-none" 
-                        label='username'
-                        value={body.username}
+                        label='email'
+                        value={body.email}
                         onChange={handleChange}
-                        name='username'
+                        name='email'
                         required/>
                     </div>
                     <div className="mt-4">
